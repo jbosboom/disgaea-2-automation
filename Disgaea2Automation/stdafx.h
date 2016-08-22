@@ -10,7 +10,9 @@
 #include <stdio.h>
 #include <tchar.h>
 #include <iostream>
+#include <vector>
 #include <tuple>
+#include <algorithm>
 #include <Windows.h>
 #include <Psapi.h>
 
