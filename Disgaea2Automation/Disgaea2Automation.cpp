@@ -172,6 +172,39 @@ void bonusGaugeRank49Item() {
 	}
 }
 
+//these values are shared across the Holt shops, not sure about Item World shops
+//one byte
+const static unsigned int SHOP_SIZE = 0x203A85D2;
+const static unsigned int SHOP_ITEM_1 = 0x203AC490;
+
+void rerollShop() {
+	std::cout << std::hex;
+	std::vector<uint16_t> desiderata = {
+		0x0581, //Destiny Lens
+		0x04B5, //Angel's Sandals
+	};
+	//call before talking to shopkeeper
+
+	while (true) {
+		sendKey('A');
+		Sleep(600); //turbo mode expected
+		sendKey('A');
+		Sleep(400);
+
+		unsigned int count = read<uint8_t>(SHOP_SIZE);
+		for (unsigned int i = 0; i < count; ++i) {
+			Item item = read<Item>(SHOP_ITEM_1 + i*sizeof(Item));
+			std::cout << item.typeId << "," << (int)item.rarity << " ";
+			if (std::find(desiderata.begin(), desiderata.end(), item.typeId) != desiderata.end())
+				return;
+		}
+		std::cout << std::endl;
+
+		sendKey('B');
+		Sleep(300);
+	}
+}
+
 int main() {
 	std::tuple<DWORD, HANDLE> processData = findEmulatorProcess();
 	g_emulatorProcessId = std::get<DWORD>(processData);
@@ -181,7 +214,7 @@ int main() {
 	EnumChildWindows(g_gsdxWnd, FindPanelChildWindow, (LPARAM)&g_gsdxChildWnd);
 	waitForGSdxFocus();
 
-	bonusGaugeRank49Item();
+	rerollShop();
 
 	char x;
 	std::cin >> x;
