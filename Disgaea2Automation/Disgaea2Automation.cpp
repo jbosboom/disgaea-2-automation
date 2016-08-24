@@ -134,12 +134,12 @@ void rareHospitalPrize() {
 
 void bonusGaugeRank49Item() {
 	std::cout << std::hex;
-	std::vector<uint16_t> desiderata = {
+	std::vector<uint16_t> legendaryDesiderata = {
 		//rank 39 stuff
 		//0x008B, //God Hand
 		0x00EF, //Excalibur
 		//0x0153, //Holy Longinus
-		0x01B7, //Artemis
+		//0x01B7, //Artemis
 		0x021B, //Megiddo Cannon
 		0x027F, //Beam Axe
 		//0x02E3, //Infernal Staff
@@ -148,6 +148,9 @@ void bonusGaugeRank49Item() {
 		0x040F, //Infernal Armor
 
 		0x0582, //Providence
+	};
+	std::vector<uint16_t> anyRarityDesiderata = {
+		0x04B5, //Angel's Sandals
 	};
 	//call with stage selected
 	sendKey(VK_F1);
@@ -160,7 +163,9 @@ void bonusGaugeRank49Item() {
 		for (unsigned int i = 0; i <= 9; ++i) {
 			Item item = read<Item>(BONUS_GAUGE_SLOT_1 + i*BONUS_GAUGE_STRIDE);
 			std::cout << item.typeId << "," << (int)item.rarity << " ";
-			if (std::find(desiderata.begin(), desiderata.end(), item.typeId) != desiderata.end() && item.rarity < 8)
+			if (std::find(legendaryDesiderata.begin(), legendaryDesiderata.end(), item.typeId) != legendaryDesiderata.end() && item.rarity < 8)
+				return;
+			if (std::find(anyRarityDesiderata.begin(), anyRarityDesiderata.end(), item.typeId) != anyRarityDesiderata.end())
 				return;
 		}
 		std::cout << std::endl;
@@ -214,7 +219,7 @@ int main() {
 	EnumChildWindows(g_gsdxWnd, FindPanelChildWindow, (LPARAM)&g_gsdxChildWnd);
 	waitForGSdxFocus();
 
-	rerollShop();
+	bonusGaugeRank49Item();
 
 	char x;
 	std::cin >> x;
