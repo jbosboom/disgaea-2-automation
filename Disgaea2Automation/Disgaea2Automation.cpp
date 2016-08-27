@@ -134,20 +134,28 @@ void rareHospitalPrize() {
 
 void bonusGaugeRank49Item() {
 	std::cout << std::hex;
-	std::vector<uint16_t> legendaryDesiderata = {
+	std::vector<uint16_t> rarity0Desiderata = {
 		//rank 39 stuff
 		//0x008B, //God Hand
-		0x00EF, //Excalibur
+		//0x00EF, //Excalibur
 		//0x0153, //Holy Longinus
 		//0x01B7, //Artemis
-		0x021B, //Megiddo Cannon
-		0x027F, //Beam Axe
+		//0x021B, //Megiddo Cannon
+		//0x027F, //Beam Axe
 		//0x02E3, //Infernal Staff
-		0x0347, //Satan's Motor
+		//0x0347, //Satan's Motor
 		//0x0379, //The King
-		0x040F, //Infernal Armor
+		//0x040F, //Infernal Armor
 
-		0x0582, //Providence
+		//0x0582, //Providence
+		0x05E6, //Cosmos Muscle
+		//0x051E, //Universal Orb
+	};
+	std::vector<uint16_t> legendaryDesiderata = {
+		//rank 39 stuff
+		//0x00EF, //Excalibur
+		//0x021B, //Megiddo Cannon
+		//0x0347, //Satan's Motor
 	};
 	std::vector<uint16_t> anyRarityDesiderata = {
 		0x04B5, //Angel's Sandals
@@ -163,6 +171,8 @@ void bonusGaugeRank49Item() {
 		for (unsigned int i = 0; i <= 9; ++i) {
 			Item item = read<Item>(BONUS_GAUGE_SLOT_1 + i*BONUS_GAUGE_STRIDE);
 			std::cout << item.typeId << "," << (int)item.rarity << " ";
+			if (std::find(rarity0Desiderata.begin(), rarity0Desiderata.end(), item.typeId) != rarity0Desiderata.end() && item.rarity == 0)
+				return;
 			if (std::find(legendaryDesiderata.begin(), legendaryDesiderata.end(), item.typeId) != legendaryDesiderata.end() && item.rarity < 8)
 				return;
 			if (std::find(anyRarityDesiderata.begin(), anyRarityDesiderata.end(), item.typeId) != anyRarityDesiderata.end())
@@ -173,7 +183,7 @@ void bonusGaugeRank49Item() {
 		sendKey(VK_F3); //load
 		Sleep(1000); //move the RNG seed (?)
 		sendKey(VK_F1);
-		Sleep(1000);
+		Sleep(200);
 	}
 }
 
@@ -220,6 +230,7 @@ int main() {
 	waitForGSdxFocus();
 
 	bonusGaugeRank49Item();
+	sendKey(VK_ESCAPE);
 
 	char x;
 	std::cin >> x;
