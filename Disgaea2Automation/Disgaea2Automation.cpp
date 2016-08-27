@@ -69,7 +69,7 @@ void read(unsigned int addr, T (&data)[N]) {
 
 void sendKey(char key) {
 	PostMessage(g_gsdxChildWnd, WM_KEYDOWN, key, MapVirtualKey(key, MAPVK_VK_TO_VSC));
-	Sleep(100);
+	Sleep(50);
 	PostMessage(g_gsdxChildWnd, WM_KEYUP, key, MapVirtualKey(key, MAPVK_VK_TO_VSC));
 }
 
@@ -220,6 +220,79 @@ void rerollShop() {
 	}
 }
 
+void reflectionPondLoverSpawn() {
+	sendKey('A');
+	Sleep(4000);
+
+	//bring out character 0 to be lover-farmed
+	sendKey('A');
+	Sleep(100);
+	sendKey('A');
+	Sleep(100);
+	sendKey('A');
+	Sleep(100);
+	sendKey(VK_UP);
+	Sleep(30);
+	sendKey('A');
+	Sleep(1000);
+
+	//use the second-to-last character to throw a Prinny
+	sendKey(VK_DOWN); //back to base panel
+	Sleep(100);
+	sendKey('A');
+	Sleep(100);
+	sendKey(VK_UP);
+	Sleep(30);
+	sendKey(VK_UP);
+	Sleep(30);
+	sendKey('A');
+	Sleep(100);
+	sendKey('A');
+	Sleep(100);
+	sendKey(VK_RIGHT);
+	Sleep(30);
+	sendKey(VK_RIGHT);
+	Sleep(30);
+	sendKey(VK_RIGHT);
+	Sleep(30);
+	sendKey(VK_RIGHT);
+	Sleep(30);
+	sendKey('A');
+	Sleep(1000);
+	sendKey('A');
+	Sleep(100);
+	sendKey(VK_DOWN);
+	Sleep(30);
+	sendKey(VK_DOWN);
+	Sleep(30);
+	sendKey(VK_DOWN);
+	Sleep(30);
+	sendKey(VK_DOWN);
+	Sleep(30);
+	sendKey('A');
+	Sleep(100);
+	sendKey('A');
+	Sleep(500);
+	sendKey('A');
+	Sleep(30);
+	sendKey(VK_DOWN);
+	Sleep(30);
+	sendKey(VK_DOWN);
+	Sleep(30);
+	sendKey(VK_DOWN);
+	Sleep(30);
+	sendKey(VK_DOWN);
+	Sleep(30);
+	sendKey('A');
+	Sleep(30);
+	sendKey('A');
+	Sleep(2000);
+
+	//clear the bonus screen
+	sendKey('A');
+	Sleep(1000);
+}
+
 int main() {
 	std::tuple<DWORD, HANDLE> processData = findEmulatorProcess();
 	g_emulatorProcessId = std::get<DWORD>(processData);
@@ -229,11 +302,11 @@ int main() {
 	EnumChildWindows(g_gsdxWnd, FindPanelChildWindow, (LPARAM)&g_gsdxChildWnd);
 	waitForGSdxFocus();
 
-	bonusGaugeRank49Item();
-	sendKey(VK_ESCAPE);
+	for (int i = 0; i < 25; ++i)
+		reflectionPondLoverSpawn();
 
-	char x;
-	std::cin >> x;
+	//char x;
+	//std::cin >> x;
     return 0;
 }
 
